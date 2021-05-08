@@ -1,0 +1,12 @@
+note over browser:
+browser adds the new note to the local note list
+and then renders notes to display
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over server:
+server adds the new note to the note list
+end note
+
+server-->browser: 201 Created
