@@ -26,14 +26,21 @@ const App = () => {
     setVotes(copied)
   }
 
+  const mostVoted = votes.map((x, i) => [x, i]).reduce((a, b) => a[0] < b[0] ? b : a)[1]
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
       <br />
-      has {votes.length === 0 ? 0 : votes.reduce((a, b) => a + b)} votes
+      has {votes.reduce((a, b) => a + b)} votes
       <br />
       <Button handleClick={vote} text="vote" />
       <Button handleClick={next} text="next anecdote" />
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[mostVoted]}
+      <br />
+      has {votes[mostVoted]} votes
     </div>
   )
 }
