@@ -17,10 +17,6 @@ const App = () => {
       .then(persons => setPersons(persons) )
   }, [])
 
-  const personsToShow = searchWord === ''
-    ? persons
-    : persons.filter(p => p.name.toLowerCase().includes(searchWord.toLowerCase()))
-
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleWordChange = (event) => setSearchWord(event.target.value)
@@ -57,7 +53,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={persons} searchWord={searchWord} setPersons={setPersons} />
     </div>
   )
 }
