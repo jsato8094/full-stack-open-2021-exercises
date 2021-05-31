@@ -23,13 +23,13 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.map(p => p.name).includes(newName)) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else {
-      const personObject = {
-        name: newName,
-        number: newNumber
-      }
+
+    const personObject = {
+      name: newName,
+      number: newNumber
+    }
+
+    if (!persons.map(p => p.name).includes(newName)) {
       personService
         .create(personObject)
         .then(person => {
@@ -37,6 +37,17 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+    } else if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      const idToBeUpdated = persons.filter(p => p.name === newName)[0].id
+      personService
+        .update(idToBeUpdated, personObject)
+        .then(returned => {
+          setPersons(persons.map(p => p.id === returned.id ? returned : p))
+          setNewName('')
+          setNewNumber('')
+        })
+    } else {
+      console.log(`${newName} is already added to phonebook, do nothing`)
     }
   }
 
