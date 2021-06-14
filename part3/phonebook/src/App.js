@@ -43,6 +43,11 @@ const App = () => {
           setMessage(`Added ${returned.name}`)
           setMessageDeletionTimer()
         })
+        .catch(error => {
+          console.log(error.response.data)
+          setMessage(`${JSON.stringify(error.response.data)}`)
+          setMessageDeletionTimer()
+        })
     } else if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
       const idToBeUpdated = persons.filter(p => p.name === newName)[0].id
       personService
@@ -52,6 +57,11 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setMessage(`Added ${returned.name}`)
+          setMessageDeletionTimer()
+        })
+        .catch(error => {
+          console.log(error.response.data)
+          setMessage(`${JSON.stringify(error.response.data)}`)
           setMessageDeletionTimer()
         })
     } else {
