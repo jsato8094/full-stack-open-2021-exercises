@@ -47,6 +47,13 @@ describe('GET /api/blogs', () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(initialBlogs.length)
   })
+
+  test('property `id` is defined', async () => {
+    const response = await api.get('/api/blogs')
+    for(let json of response.body) {
+      expect(json.id).toBeDefined()
+    }
+  })
 })
 
 afterAll(() => {
