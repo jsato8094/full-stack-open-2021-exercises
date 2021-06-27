@@ -114,6 +114,19 @@ describe('DELETE /api/blogs/:id', () => {
   })
 })
 
+describe('PUT /api/blogs/:id', () => {
+  test('succeeds with status code 200 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    const blogAfterUpdate = {...blogToUpdate, likes: 100}
+
+    const response = await api.put(`/api/blogs/${blogToUpdate.id}`).send(blogAfterUpdate)
+
+    expect(response.status).toBe(200)
+    expect(response.body.likes).toBe(blogAfterUpdate.likes)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
