@@ -57,6 +57,17 @@ describe('POST /api/blogs', () => {
     const titles = blogs.map(b => b.title)
     expect(titles).toContain(newBlog.title)
   })
+
+  test('if "likes" is missing, it will zero', async () => {
+    const newBlogWithoutLikes = {
+      title: "This is new blog",
+      author: "someone",
+      url: "http://example.com"
+    }
+
+    const response = await api.post('/api/blogs').send(newBlogWithoutLikes)
+    expect(response.body.likes).toBe(0)
+  })
 })
 
 afterAll(() => {
