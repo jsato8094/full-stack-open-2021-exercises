@@ -6,6 +6,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const blogRouter = require('../controllers/blogs')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -93,6 +94,23 @@ describe('POST /api/blogs', () => {
       .post('/api/blogs')
       .send(newBlogMissingUrl)
       .expect(400)
+  })
+})
+
+describe('DELETE /api/blogs/:id', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).not.toContain(blogToDelete.title)
   })
 })
 
