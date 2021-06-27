@@ -68,6 +68,32 @@ describe('POST /api/blogs', () => {
     const response = await api.post('/api/blogs').send(newBlogWithoutLikes)
     expect(response.body.likes).toBe(0)
   })
+
+  test('if "title" is missing, return 400', async () => {
+    const newBlogMissingTitle = {
+      author: "someone",
+      url: "http://example.com",
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlogMissingTitle)
+      .expect(400)
+  })
+
+  test('if "url" is missing, return 400', async () => {
+    const newBlogMissingUrl = {
+      title: "title",
+      author: "someone",
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlogMissingUrl)
+      .expect(400)
+  })
 })
 
 afterAll(() => {
