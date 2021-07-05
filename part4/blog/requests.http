@@ -22,3 +22,13 @@ content-type: application/json
   "name": "Matti Luukkainen",
   "password": "salainen"
 }
+
+###
+
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+  "username": "mluukkai",
+  "password": "salainen"
+}
