@@ -171,6 +171,68 @@ describe('when there is initially one user in db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
+
+  test('creation fails without username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('creation fails with too short username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'ml',
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('creation fails without password', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('creation fails with duplicate username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'root',
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+    
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
 })
 
 afterAll(() => {

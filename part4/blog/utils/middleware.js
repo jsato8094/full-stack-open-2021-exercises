@@ -11,6 +11,10 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   }
 
+  if (error.name === 'MongoError' && error.code === 11000) {
+    return response.status(400).json({ error: 'given username already exists' })
+  }
+
   next(error)
 }
 
