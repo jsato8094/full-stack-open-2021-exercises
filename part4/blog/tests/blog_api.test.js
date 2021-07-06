@@ -10,12 +10,8 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 beforeEach(async () => {
-  await Blog.deleteMany({})
-  for (let blog of helper.initialBlogs) {
-    let obj = new Blog(blog)
-    await obj.save()
-  }
-})
+  await helper.initiateDb()
+}, 10000)
 
 describe('GET /api/blogs', () => {
   test('blogs are returned as json', async () => {
